@@ -12,7 +12,7 @@
 static void** resources = NULL;
 
 // char*[] = char**
-int PRES_LoadResources( const char** resource_paths, size_t resource_count )
+int Pres_LoadResources( const char** resource_paths, size_t resource_count )
 {
 	resources = malloc( sizeof(void*) * resource_count );
 	
@@ -20,7 +20,7 @@ int PRES_LoadResources( const char** resource_paths, size_t resource_count )
 }
 
 
-void* PRES_GetResource( size_t which )
+void* Pres_GetResource( size_t which )
 {
 	return malloc(1);
 }

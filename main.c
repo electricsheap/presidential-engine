@@ -17,12 +17,18 @@ static const uint32_t SCREEN_HEIGHT = 480;
 
 int main( int argc, char* argv[] ) 
 {
-	PRES_RendererInit( "hello", SCREEN_WIDTH, SCREEN_HEIGHT );
-	PRES_FlushEvents();
-	PRES_RenderScene();
+	Transform trans[] = { { 100, 100 }, { 200, 200 }, { 300, 300 }, { 400, 400 } };
+	Scene scene = {
+		.entities = trans,
+		.len = 4
+	};
+
+	Pres_RendererInit( "hello", SCREEN_WIDTH, SCREEN_HEIGHT );
+	Pres_FlushEvents();
+	Pres_RenderScene( &scene );
 
 	getc( stdin );
-	PRES_RendererQuit();
+	Pres_RendererQuit();
 	return 0;
 }
 

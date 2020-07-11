@@ -4,13 +4,12 @@
 #include "pres.h"
 #include "pres_internal.h"
 
-PRES_Window* pres_main_window;
-PRES_Renderer* pres_main_renderer;
-
-PRES_Color pres_clear_color = { .r = 100, .g = 100, .b = 100, .a = 255 };
+Pres_Window* pres_main_window;
+Pres_Renderer* pres_main_renderer;
+Pres_Color pres_clear_color = { .r = 100, .g = 100, .b = 100, .a = 255 };
 
 // create the main window and set up SDL
-int PRES_RendererInit( const char* title , Uint32 width, Uint32 height )
+int Pres_RendererInit( const char* title , Uint32 width, Uint32 height )
 {
 	if ( SDL_Init( SDL_INIT_EVERYTHING ) < 0 ) {
 		LOG_SDL_ERROR("SDL not initialized\n");
@@ -38,30 +37,36 @@ int PRES_RendererInit( const char* title , Uint32 width, Uint32 height )
 	return 0;
 }
 
-void PRES_SetClearColor( PRES_Color new_color );
-void PRES_SetDrawColor( PRES_Color new_color );
+void Pres_SetClearColor( Pres_Color new_color );
+void Pres_SetDrawColor( Pres_Color new_color );
 
 // clears the window with clear color
-void PRES_RenderClear()
+void Pres_RenderClear()
 {
-	PRES_SetDrawColor( pres_clear_color );
+	Pres_SetDrawColor( pres_clear_color );
 	SDL_RenderClear( pres_main_renderer );
 }
 
 // renders a full scene
-void PRES_RenderScene()
+void Pres_RenderScene( Pres_Scene* scene )
 {
+	SDL_Rect rects[scene->len];
+	Pres_RenderClear();
 	
-	PRES_SetClearColor( (PRES_Color){ 255, 255, 255, 255 } );
-	PRES_RenderClear();
-	PRES_SetDrawColor( (SDL_Color){ 100, 100, 100, 100 } );
+	for (size_t i = 0; i < scene->len; i++)
+	{
+		const Pres_Transform elm = scene->entities[i];
+		rects[i] =  (SDL_Rect){ elm.x - 50, elm.y - 50, 100, 100 };
+	}
 	
-	SDL_RenderFillRect( pres_main_renderer, &(SDL_Rect){ 10, 10, 100, 100 } );
+	Pres_SetDrawColor( (Pres_Color){ 255, 0, 0, 255 } );
+	SDL_RenderFillRects( pres_main_renderer, rects, scene->len );
+	
 	SDL_RenderPresent( pres_main_renderer );
 }
 
 // close the main window and clean all rendering stuff
-void PRES_RendererQuit()
+void Pres_RendererQuit()
 {
 	SDL_DestroyWindow( pres_main_window );
 	pres_main_window = NULL;

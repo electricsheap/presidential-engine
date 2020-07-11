@@ -28,24 +28,40 @@ typedef double		Float64;
 
 
 #pragma region // Renderer
-typedef SDL_Window PRES_Window;
-typedef SDL_Surface PRES_Surface;
-typedef SDL_Renderer PRES_Renderer;
-typedef SDL_Color PRES_Color;
+typedef SDL_Window Pres_Window;
+typedef SDL_Surface Pres_Surface;
+typedef SDL_Renderer Pres_Renderer;
+typedef SDL_Color Pres_Color;
 
-int PRES_RendererInit( const char* title , Uint32 width, Uint32 height ); 	// create the main window and set up SDL
-void PRES_RenderScene(); 					// clears the window
-void PRES_RendererQuit(); 					// quit the main window and clean renderer stuff
+int Pres_RendererInit( const char* title , Uint32 width, Uint32 height ); 	// create the main window and set up SDL
+void Pres_RenderScene();
+void Pres_RendererQuit();
 #pragma endregion
 
 
 
+#pragma region // Scene
+typedef struct {
+	float x, y;
+} Pres_Transform;
+
+typedef struct {
+	Pres_Transform* entities;
+	size_t len;
+} Pres_Scene;
+#pragma
 
 
+
+#pragma region // Storage
+typedef enum {
+	Pres_VecStorage
+} Pres_StorageType;
+#pragma endregion // Storage
 
 
 #pragma region // Events
-void PRES_FlushEvents();
+void Pres_FlushEvents();
 #pragma endregion
 
 
@@ -56,7 +72,7 @@ void PRES_FlushEvents();
 // TODO: Resource loading and management
 // 		 possibly json parser 
 #pragma region // Resources
-int PRES_LoadResources();
+int Pres_LoadResources();
 #pragma endregion
 
 
