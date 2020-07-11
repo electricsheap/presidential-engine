@@ -15,7 +15,7 @@
 static const uint32_t SCREEN_WIDTH = 640;
 static const uint32_t SCREEN_HEIGHT = 480;
 
-int main() 
+int main( int argc, char* argv[] ) 
 {
 	PRES_RendererInit( "hello", SCREEN_WIDTH, SCREEN_HEIGHT );
 	PRES_FlushEvents();
