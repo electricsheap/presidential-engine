@@ -18,12 +18,11 @@ static const uint32_t SCREEN_HEIGHT = 480;
 int main() 
 {
 	PRES_RendererInit( "hello", SCREEN_WIDTH, SCREEN_HEIGHT );
-	PRES_SetRenderClear( (PRES_Color){ 255, 255, 255, 255 } );
 	PRES_FlushEvents();
 	PRES_RenderScene();
 
-	sleep( 5 );
-	// SDL_Delay( 10000 );
+	getc( stdin );
+	PRES_RendererQuit();
 	return 0;
 }
 

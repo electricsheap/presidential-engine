@@ -22,26 +22,24 @@ typedef float			Float32;
 typedef double			Float64;
 #pragma endregion
 
-#pragma region // Renderer
 
-// types
+
+
+
+
+#pragma region // Renderer
 typedef SDL_Window PRES_Window;
 typedef SDL_Surface PRES_Surface;
 typedef SDL_Renderer PRES_Renderer;
-
 typedef SDL_Color PRES_Color;
 
-
-// create the main window and set up SDL
-int PRES_RendererInit( const char* title , Uint32 width, Uint32 height );
-
-// clears the window
-void PRES_SetRenderClear( PRES_Color new_color );
-void PRES_RenderScene();
-
-// quit the main window and clean renderer stuff
-void PRES_RendererQuit();
+int PRES_RendererInit( const char* title , Uint32 width, Uint32 height ); 	// create the main window and set up SDL
+void PRES_RenderScene(); 					// clears the window
+void PRES_RendererQuit(); 					// quit the main window and clean renderer stuff
 #pragma endregion
+
+
+
 
 
 
@@ -49,6 +47,10 @@ void PRES_RendererQuit();
 #pragma region // Events
 void PRES_FlushEvents();
 #pragma endregion
+
+
+
+
 
 
 // TODO: Resource loading and management

@@ -5,9 +5,9 @@
 #include "pres_internal.h"
 
 PRES_Window* pres_main_window;
-static PRES_Renderer* pres_main_renderer;
+PRES_Renderer* pres_main_renderer;
 
-static PRES_Color clear_color = { .r = 100, .g = 100, .b = 100, .a = 255 };
+PRES_Color pres_clear_color = { .r = 100, .g = 100, .b = 100, .a = 255 };
 
 // create the main window and set up SDL
 int PRES_RendererInit( const char* title , Uint32 width, Uint32 height )
@@ -18,7 +18,7 @@ int PRES_RendererInit( const char* title , Uint32 width, Uint32 height )
 	}
 	printf("sdl initilized!\n");
 
-	pres_main_window = SDL_CreateWindow( title, 0, 0, width, height, SDL_WINDOW_SHOWN );
+	pres_main_window = SDL_CreateWindow( title, 0, 0, width, height, SDL_WINDOW_SHOWN | SDL_WINDOW_ALLOW_HIGHDPI );
 	if( NULL == pres_main_window ) {
 		LOG_SDL_ERROR("SDL Window not created\n");
 		SDL_Quit();
@@ -34,31 +34,29 @@ int PRES_RendererInit( const char* title , Uint32 width, Uint32 height )
 		return -1;
 	}
 	printf("sdl renderer created!!!\n");
-
 	
-
 	return 0;
 }
 
-void PRES_SetRenderClear( PRES_Color new_color )
-{
-	clear_color = new_color;
-}
+void PRES_SetClearColor( PRES_Color new_color );
+void PRES_SetDrawColor( PRES_Color new_color );
 
 // clears the window with clear color
 void PRES_RenderClear()
 {
-	SDL_SetRenderDrawColor( pres_main_renderer, clear_color.r, clear_color.g, clear_color.b, clear_color.a );
+	PRES_SetDrawColor( pres_clear_color );
 	SDL_RenderClear( pres_main_renderer );
 }
 
 // renders a full scene
 void PRES_RenderScene()
 {
-	SDL_Rect size = { 10, 10, 100, 100 };
-
+	
+	PRES_SetClearColor( (PRES_Color){ 255, 255, 255, 255 } );
 	PRES_RenderClear();
-	SDL_RenderDrawRect( pres_main_renderer, &size );
+	PRES_SetDrawColor( (SDL_Color){ 100, 100, 100, 100 } );
+	
+	SDL_RenderFillRect( pres_main_renderer, &(SDL_Rect){ 10, 10, 100, 100 } );
 	SDL_RenderPresent( pres_main_renderer );
 }
 
@@ -70,6 +68,5 @@ void PRES_RendererQuit()
 
 	SDL_DestroyRenderer( pres_main_renderer );
 	pres_main_renderer = NULL;
-
 	SDL_Quit();
 }
